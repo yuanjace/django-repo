@@ -1,0 +1,2 @@
+# django-repo
+just test
