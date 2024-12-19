@@ -76,9 +76,13 @@ WSGI_APPLICATION = "djangoRepo.wsgi.application"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'for_django_repo_use',
+        'USER': 'for_django_repo_use_user',
+        'PASSWORD': 'JEV2e3giyiEB9PYW73ODjQ1bNj3CZesD',
+        'HOST': 'oregon-postgres.render.com',  # Render 提供的內部主機名
+        'PORT': '5432',  # 默認端口
     }
 }
 
