@@ -1,7 +1,4 @@
 # throttles.py
-from gettext import ngettext
-import math
-from black import format_str
 from rest_framework.throttling import BaseThrottle
 from rest_framework.exceptions import Throttled
 
