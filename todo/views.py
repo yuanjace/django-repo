@@ -3,7 +3,7 @@ from rest_framework.pagination import PageNumberPagination
 
 from .models import Todo
 from .serializers import TodoSerializer
-from .throttles import FiveSecondThrottle
+from .throttles import secondThrottle
 
 # 自定義分頁器
 class TodoPagination(PageNumberPagination):
@@ -13,7 +13,7 @@ class TodoPagination(PageNumberPagination):
 
 
 class TodoViewSet(viewsets.ModelViewSet):
-    throttle_classes = [FiveSecondThrottle]
+    throttle_classes = [secondThrottle]
 
     queryset = Todo.objects.all().order_by('-created_at')
     serializer_class = TodoSerializer
