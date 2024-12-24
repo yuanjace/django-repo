@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-xm6&ft1!up$ag!9me-@&v4$h+^&in)gzy!-)4%!j*@j9vq_-q7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -55,7 +55,7 @@ MIDDLEWARE = [
 
 # CORS
 # CORS_ALLOWED_ORIGINS = [
-#     'http://localhost:8080', 
+#     'http://localhost:8080',
 # ]
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -84,13 +84,13 @@ WSGI_APPLICATION = "djangoRepo.wsgi.application"
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'for_django_repo_use',
-        'USER': 'for_django_repo_use_user',
-        'PASSWORD': 'JEV2e3giyiEB9PYW73ODjQ1bNj3CZesD',
-        'HOST': 'oregon-postgres.render.com',  # Render 提供的內部主機名
-        'PORT': '5432',  # 默認端口
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "for_django_repo_use",
+        "USER": "for_django_repo_use_user",
+        "PASSWORD": "JEV2e3giyiEB9PYW73ODjQ1bNj3CZesD",
+        "HOST": "oregon-postgres.render.com",  # Render 提供的內部主機名
+        "PORT": "5432",  # 默認端口
     }
 }
 
@@ -138,6 +138,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 REST_FRAMEWORK = {
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10,  # 每一頁顯示的項目數量
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 10,  # 每一頁顯示的項目數量
 }
