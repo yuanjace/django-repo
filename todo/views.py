@@ -11,12 +11,6 @@ from .throttles import secondThrottle
 from ollama import Client
 
 
-ollama_host = os.getenv("OLLAMA_HOST")
-ollama_port = os.getenv("OLLAMA_PORT")
-
-client = Client(host=f"http://{ollama_host}:{ollama_port}")
-
-
 # import ollama
 
 
@@ -38,6 +32,10 @@ class TodoViewSet(viewsets.ModelViewSet):
         # 在这里修改 request.data
         modified_data = request.data.copy()  # 复制原始请求数据
         try:
+            ollama_host = os.getenv("OLLAMA_HOST")
+            ollama_port = os.getenv("OLLAMA_PORT")
+            client = Client(host=f"http://{ollama_host}:{ollama_port}")
+
             # 尝试连接到聊天模型
             response = client.chat(
                 model="llama3.2",
