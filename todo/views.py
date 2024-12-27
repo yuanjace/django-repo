@@ -1,3 +1,5 @@
+import os
+
 from rest_framework import viewsets, status
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
@@ -5,6 +7,15 @@ from rest_framework.response import Response
 from .models import Todo
 from .serializers import TodoSerializer
 from .throttles import secondThrottle
+
+from ollama import Client
+
+
+ollama_host = os.getenv("OLLAMA_HOST")
+ollama_port = os.getenv("OLLAMA_PORT")
+
+client = Client(host=f"http://{ollama_host}:{ollama_port}")
+
 
 # import ollama
 
@@ -23,47 +34,41 @@ class TodoViewSet(viewsets.ModelViewSet):
     serializer_class = TodoSerializer
     pagination_class = TodoPagination
 
-    # def create(self, request, *args, **kwargs):
-    #     """
-    #     Override create method to add custom text to request data.
-    #     """
-    #     # 複製原始的 request.data
-    #     data = request.data.copy()
+    def create(self, request, *args, **kwargs):
+        # 在这里修改 request.data
+        modified_data = request.data.copy()  # 复制原始请求数据
+        try:
+            # 尝试连接到聊天模型
+            response = client.chat(
+                model="llama3.2",
+                messages=[
+                    {
+                        "role": "system",
+                        "content": f"你是一個待辦事項助手，主題是({modified_data['title']})，協助使用者進行1.整理2.規劃3.建議。",
+                    },
+                    {
+                        "role": "user",
+                        "content": f"以下是使用者的待辦事項'{modified_data['description']}'",
+                    },
+                ],
+            )
 
-    #     response = ollama.chat(
-    #         model="llama3.1",
-    #         messages=[
-    #             {
-    #                 "role": "system",
-    #                 "content": "你是中英雙語翻譯機，負責翻譯使用者傳來的內容。如果使用者傳中文，就翻譯成英文，如果使用者傳英文，就翻譯成中文。其他什麼事情都不要做",
-    #             },
-    #             {
-    #                 "role": "user",
-    #                 "content": f"幫我翻譯'{data["description"]}'",
-    #             },
-    #         ],
-    #     )
-    #     print(response["message"]["content"])
+            # 如果连接成功，修改描述字段
+            modified_data["description"] = (
+                f"{modified_data['description']}\n以下括號內是建議 : \n\n({response['message']['content']})"
+            )
 
-    #     # 假設您要在 `title` 字段中添加一些文字
-    #     if "description" in data:
-    #         data["description"] = (
-    #             data["description"] + f"({response["message"]["content"]})"
-    #         )
+        except Exception as e:
+            print(f"Error while connecting to the client: {e}")
 
-    #     # 使用序列化器來進行驗證
-    #     serializer = self.get_serializer(data=data)
+        # 将修改后的数据传递给序列化器
+        serializer = self.get_serializer(data=modified_data)
 
-    #     if serializer.is_valid():
-    #         # 如果驗證成功，保存並返回創建的物件
-    #         self.perform_create(serializer)
-    #         return Response(serializer.data, status=status.HTTP_201_CREATED)
-    #     else:
-    #         # 如果驗證失敗，返回錯誤訊息
-    #         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        if serializer.is_valid():
+            self.perform_create(serializer)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    # def perform_create(self, serializer):
-    #     """
-    #     保存新創建的物件。
-    #     """
-    #     serializer.save()
+    def perform_create(self, serializer):
+        # 在这里执行保存操作（可以使用默认的保存方法）
+        serializer.save()
