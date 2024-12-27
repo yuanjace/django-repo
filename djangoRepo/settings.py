@@ -129,7 +129,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = "static/"
+STATIC_URL = "/static/"
+
+# 添加 STATIC_ROOT 以指定静态文件收集的目标目录static
+STATIC_ROOT = "/app/static"  # 或者指定一个适合的路径，如 /var/www/
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
