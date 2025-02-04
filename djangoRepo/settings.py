@@ -86,11 +86,14 @@ WSGI_APPLICATION = "djangoRepo.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "for_django_repo_use",
-        "USER": "for_django_repo_use_user",
-        "PASSWORD": "JEV2e3giyiEB9PYW73ODjQ1bNj3CZesD",
-        "HOST": "oregon-postgres.render.com",  # Render 提供的內部主機名
+        "NAME": "for_django_repo_use_7opi",
+        "USER": "for_django_repo_use_7opi_user",
+        "PASSWORD": "I0Sam8o5w9Le1JSrBwtb1tTZQSlUP2gT",
+        "HOST": "dpg-cugv1jhu0jms73frpau0-a.oregon-postgres.render.com",  # Render 提供的內部主機名
         "PORT": "5432",  # 默認端口
+        "OPTIONS": {
+            "sslmode": "require",  # 強制使用 SSL 加密連線（Render 通常需要）
+        },
     }
 }
 
